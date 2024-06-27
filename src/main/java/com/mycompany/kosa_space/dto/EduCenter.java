@@ -2,6 +2,7 @@ package com.mycompany.kosa_space.dto;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
@@ -13,11 +14,18 @@ public class EduCenter {
 	private String ecpostcode;
 	private String ecaddress;
 	
-	private MultipartFile ecattach;
+	private MultipartFile ecattachdata;
 	private String ecattachoname;
 	private String ecattachtype;
+	private byte[] ecattach;
 	
 	private Date eccreatedat;
 	private Date ecupdatedat;
+	
+	/*
+	 * @DateTimeFormat(pattern="yyyy.MM.dd") private Date eccreatedat;
+	 * 
+	 * @DateTimeFormat(pattern="yyyy.MM.dd") private Date ecupdatedat;
+	 */
 	
 }
