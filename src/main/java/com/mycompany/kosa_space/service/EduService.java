@@ -55,4 +55,30 @@ public class EduService {
 
 		return eduCenterDao.centerInsert(educenter);
 	}
+	
+	// 경섭
+	//교육장 수정
+	public int educenterUpdate(EduCenter eduCenter) {
+		log.info("educenterUpdate 실행");
+      if(eduCenter.getEcattachdata() != null && !eduCenter.getEcattachdata().isEmpty()) {
+         MultipartFile mf = eduCenter.getEcattachdata();
+         eduCenter.setEcattachoname(mf.getOriginalFilename());
+         eduCenter.setEcattachtype(mf.getContentType());
+         try {
+            eduCenter.setEcattach(mf.getBytes());
+         } catch(IOException e) {
+            
+         }
+      }
+      log.info("attach 확인 실행");
+      
+      return eduCenterDao.updateByEcno(eduCenter);
+   }
+
+   //교육장 수정시 수정된 교육장 가져오기
+   public EduCenter getEducenter(int ecno) {
+      EduCenter eduCenter = eduCenterDao.selectByEcno(ecno);
+      return eduCenter;
+   }
+	
 }

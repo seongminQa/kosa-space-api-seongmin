@@ -15,4 +15,20 @@
    		)
    </insert>
    
+	<update id="updateByEcno" parameterType="educenter">
+         update educenter set 
+         	ecno=#{ecno}, ecname=#{ecname}, 
+         	ecaddress=#{ecaddress}, ecpostcode=#{ecpostcode}, 
+         	ecattach=#{ecattach}, ecattachoname=#{ecattachoname}, 
+         	ecattachtype=#{ecattachtype}, eccreatedat=sysdate, ecupdatedat=sysdate
+	     where ecno=#{ecno}
+   </update>
+
+
+ <select id="selectByEcno" parameterType="int" resultType="educenter">
+         select ecname, ecaddress, ecpostcode, ecupdatedat, ecattachoname, ecattachtype, ecattach
+         from educenter
+         where ecno=#{ecno}
+   </select>
+   
 </mapper>

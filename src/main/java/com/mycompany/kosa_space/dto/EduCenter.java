@@ -2,7 +2,6 @@ package com.mycompany.kosa_space.dto;
 
 import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;

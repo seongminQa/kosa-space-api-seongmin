@@ -2,5 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycompany.kosa_space.dao.MemberDao">
    
+   <insert id="memberInsert" parameterType="Member">
+	   	insert into member (
+	   		mid, mpassword, mname, mphone, memail, mrole, menable, mcreatedat
+	   	) values (
+	   		#{mid}, #{mpassword}, #{mname}, #{mphone}, #{memail}, #{mrole},
+	   		#{menable}, sysdate
+	   	)
+   </insert>
+   
+   <!-- ID에 해당하는 회원의 정보 불러오기 -->
+   <select id="selectByMid" parameterType="String" resultType="Member">
+   		select mid, mpassword, mname, mphone, memail, mrole, menable, mcreatedat, mupdatedat
+   		from member
+   		where mid = #{mid}
+   </select>
    
 </mapper>
