@@ -1,8 +1,11 @@
 package com.mycompany.kosa_space.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 /*
@@ -13,9 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mycompany.kosa_space.dto.Member;
-import com.mycompany.kosa_space.security.JwtProvider;
 import com.mycompany.kosa_space.security.KosaUserDetails;
-import com.mycompany.kosa_space.security.KosaUserDetailsService;
 import com.mycompany.kosa_space.service.AuthService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,25 +34,48 @@ public class AuthController {
 		log.info("login 컨트롤러 실행");
 		log.info("패스워드 : " + mpassword);
 		// 응답 생성과 동시에 매핑
-		Map<String, String> map = authService.userCheck(mid, mpassword);
+		Map<String, String> map = authService.memberCheck(mid, mpassword);
 		
 		log.info("응답 생성 완료");
 		return map;
 	}
 	
-	// 회원가입 ------------------------------------
-	// 회원가입 요청 컨트롤러
+	// 회원 가입 ------------------------------------
+	// 운영자 회원가입 요청 컨트롤러
 	@PostMapping("/signup")
 	public void signUp(Member member) {
 		log.info(member.getMid());
 		log.info(member.getMid().substring(0,4));
-		authService.memberRegister(member);
+		authService.createMember(member);
 		log.info(member.toString());
 	}
 	
-//	@GetMapping("member/list")
-//	public List<Member> getMemberList() {
-//		List<Member> member = authService.getMemberAllRead();
-//	}
+	// (공통) 아이디 찾기 ------------------------------------
+	@GetMapping("/find/id")
+	public String findId(String mphone, String memail) {
+		log.info("findId 리턴값 확인 == " + authService.readMemberId(mphone, memail));
+		return authService.readMemberId(mphone, memail);
+	}
 	
+	// (공통) 비밀번호 찾기 ------------------------------------
+	// 현재 '비밀번호 초기화 = 12345'로 사용
+	@PatchMapping("/find/password")
+	public String findPassword(String mname, String mid, String memail) {
+		return authService.updateMemberPassword(mname, mid, memail);
+	}
+	
+	// (운영진) 회원정보수정 ------------------------------------
+	@PatchMapping("/admin/mypage/info/modify")
+	public void adminUpdate(String mid) {
+		authService.updateAdmin(mid);
+	}
+	
+//	// (공통) 회원 조회 ---------------------------------------
+//	// 교육생 목록 전체 조회
+//	@GetMapping("/admin/trainee/list") // 임시 url
+//	public List<Member> traineeList(String ecname, String cname) {
+//		List<Member> member = authService.listTrainee(ecname, cname);
+//		return null;
+//	}
+
 }

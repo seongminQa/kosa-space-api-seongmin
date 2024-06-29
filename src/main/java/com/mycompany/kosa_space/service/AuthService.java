@@ -1,6 +1,7 @@
 package com.mycompany.kosa_space.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class AuthService {
 	private KosaUserDetailsService userDetailsService;
 	
 	// 회원가입
-	public void memberRegister(Member member) {
+	public void createMember(Member member) {
 		/* 파라미터의 member 객체에는
 		 * 아이디, 비밀번호, 이름, 휴대폰 번호, 이메일 등의 정보가 담겨있다.
 		 * 따라서 mrole, menable의 값을 셋팅해주면 된다.
@@ -64,11 +65,11 @@ public class AuthService {
 		member.setMenable(true);
 		
 		// 회원가입 처리 (Dao의 추상 메소드를 사용하여 DB에 값을 저장) 
-		memberDao.memberInsert(member);
+		memberDao.insert(member);
 	}
 	
 	// 로그인
-	public Map<String, String> userCheck(String mid, String mpassword) {
+	public Map<String, String> memberCheck(String mid, String mpassword) {
 		log.info("userCheck 실행");
 		// # 사용자 상세 정보 얻기 (KosaUserDetailsService에서 유저의 아이디가 없다면 예외를 발생시키도록 했음.)
 		// 1. loadUserByUsername(mid)는 DB로부터 사용자가 입력한 mid에 해당하는 Member 객체를 가져온다.
@@ -108,4 +109,53 @@ public class AuthService {
 		
 		return map;
 	}
+	
+	// 아이디 찾기
+	public String readMemberId(String mphone, String memail) {
+		// 핸드폰 번호는 중복될 수 없다는 전제.
+		// --> 회원가입시 구현하진 않았음. 팀 논의 후 수정 결정
+		Member member = memberDao.selectByMphone(mphone);
+		log.info(member.getMemail());
+		log.info(member.getMid());
+		
+		if(memail.equals(member.getMemail())) {
+			return member.getMid();
+		} else {
+			return null;
+		}
+	}
+	
+	// 비밀번호 찾기 -> 비밀번호 '12345'로 초기화
+	public String updateMemberPassword(String mname, String mid, String memail) {
+		Member member = memberDao.selectByMid(mid);
+		
+		if(member.getMname().equals(mname) && member.getMemail().equals(memail)) {
+			PasswordEncoder passwordEncoder = PasswordEncoderFactories
+					.createDelegatingPasswordEncoder();
+			
+			member.setMpassword(passwordEncoder.encode("12345"));
+			return "12345";
+		} else {
+			return null;
+		}
+	}
+	
+	// (운영진) 회원정보수정
+	public void updateAdmin(Member member) {
+		KosaUserDetails userDetails = 
+				(KosaUserDetails) userDetailsService.loadUserByUsername(mid);
+		
+	}
+	
+	
+
+
+	
+
+
+//	// 교육장, 교육과정에 따른 교육생 목록 조회
+//	public List<Member> listTrainee(String ecname, String cname) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 }
