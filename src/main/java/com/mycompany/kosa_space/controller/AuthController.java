@@ -1,12 +1,11 @@
 package com.mycompany.kosa_space.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /*
 	로그인, 회원가입, 아이디 찾기, 비밀번호 찾기
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mycompany.kosa_space.dto.Member;
-import com.mycompany.kosa_space.security.KosaUserDetails;
 import com.mycompany.kosa_space.service.AuthService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -58,17 +56,19 @@ public class AuthController {
 	}
 	
 	// (공통) 비밀번호 찾기 ------------------------------------
-	// 현재 '비밀번호 초기화 = 12345'로 사용
-	@PatchMapping("/find/password")
+	@GetMapping("/find/password")
 	public String findPassword(String mname, String mid, String memail) {
-		return authService.updateMemberPassword(mname, mid, memail);
+		log.info("mid : " + mid);
+		log.info("mname : " + mname);
+		log.info("memail : " + memail);
+		return authService.readMemberPassword(mname, mid, memail);
 	}
 	
-	// (운영진) 회원정보수정 ------------------------------------
-	@PatchMapping("/admin/mypage/info/modify")
-	public void adminUpdate(String mid) {
-		authService.updateAdmin(mid);
-	}
+//	// (운영진) 회원정보수정 ------------------------------------
+//	@PatchMapping("/admin/mypage/info/modify")
+//	public void adminUpdate(String mid) {
+//		authService.updateAdmin(mid);
+//	}
 	
 //	// (공통) 회원 조회 ---------------------------------------
 //	// 교육생 목록 전체 조회

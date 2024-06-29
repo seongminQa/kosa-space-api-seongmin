@@ -1,7 +1,6 @@
 package com.mycompany.kosa_space.service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mycompany.kosa_space.dao.MemberDao;
 import com.mycompany.kosa_space.dto.Member;
@@ -32,6 +32,7 @@ public class AuthService {
 	@Autowired
 	private KosaUserDetailsService userDetailsService;
 	
+	// ---------------------------------------------------------------------------
 	// 회원가입
 	public void createMember(Member member) {
 		/* 파라미터의 member 객체에는
@@ -68,6 +69,7 @@ public class AuthService {
 		memberDao.insert(member);
 	}
 	
+	// ---------------------------------------------------------------------------
 	// 로그인
 	public Map<String, String> memberCheck(String mid, String mpassword) {
 		log.info("userCheck 실행");
@@ -110,6 +112,7 @@ public class AuthService {
 		return map;
 	}
 	
+	// ---------------------------------------------------------------------------
 	// 아이디 찾기
 	public String readMemberId(String mphone, String memail) {
 		// 핸드폰 번호는 중복될 수 없다는 전제.
@@ -125,27 +128,32 @@ public class AuthService {
 		}
 	}
 	
-	// 비밀번호 찾기 -> 비밀번호 '12345'로 초기화
-	public String updateMemberPassword(String mname, String mid, String memail) {
+	// ---------------------------------------------------------------------------
+	// 임시 비밀번호 발급을 위한 
+	// 비밀번호 찾기 (--> 복호화를 할 수 없어서 '12345'로 비밀번호 초기화)
+	public String readMemberPassword(String mname, String mid, String memail) {
+		log.info("비밀번호 찾기 service 실행");
+		
 		Member member = memberDao.selectByMid(mid);
 		
-		if(member.getMname().equals(mname) && member.getMemail().equals(memail)) {
-			PasswordEncoder passwordEncoder = PasswordEncoderFactories
-					.createDelegatingPasswordEncoder();
-			
+		if(member == null) {
+			return "존재하지 않는 아이디입니다.";
+		} else if(member.getMname().equals(mname) && member.getMemail().equals(memail)) {
+			PasswordEncoder passwordEncoder = 
+					PasswordEncoderFactories.createDelegatingPasswordEncoder();
 			member.setMpassword(passwordEncoder.encode("12345"));
 			return "12345";
 		} else {
-			return null;
+			return "회원의 정보가 일치하지 않습니다. 다시 확인해주세요.";
 		}
 	}
 	
-	// (운영진) 회원정보수정
-	public void updateAdmin(Member member) {
-		KosaUserDetails userDetails = 
-				(KosaUserDetails) userDetailsService.loadUserByUsername(mid);
-		
-	}
+//	// (운영진) 회원정보수정
+//	public void updateAdmin(Member member) {
+//		KosaUserDetails userDetails = 
+//				(KosaUserDetails) userDetailsService.loadUserByUsername(mid);
+//		
+//	}
 	
 	
 

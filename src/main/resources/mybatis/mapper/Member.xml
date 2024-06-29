@@ -13,7 +13,7 @@
    
    <!-- ID에 해당하는 회원의 정보 불러오기 -->
    <select id="selectByMid" parameterType="String" resultType="Member">
-   		select mid, mpassword, mname, mphone, memail, mrole, menable, mcreatedat, mupdatedat
+   		select *
    		from member
    		where mid = #{mid}
    </select>
