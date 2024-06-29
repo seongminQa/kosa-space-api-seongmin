@@ -148,12 +148,25 @@ public class AuthService {
 		}
 	}
 	
-//	// (운영진) 회원정보수정
-//	public void updateAdmin(Member member) {
-//		KosaUserDetails userDetails = 
-//				(KosaUserDetails) userDetailsService.loadUserByUsername(mid);
-//		
-//	}
+	// (운영진) 회원정보수정
+	public void updateAdmin(String mid, String mpassword, String memail, 
+			String mphone, String menable) {
+		// # 사용자 상세 정보 얻기 (KosaUserDetailsService에서 유저의 아이디가 없다면 예외를 발생시키도록 했음.)
+		// 1. loadUserByUsername(mid)는 DB로부터 사용자가 입력한 mid에 해당하는 Member 객체를 가져온다.
+		// 2. 강제 형변환을 사용하여 userDetails 객체에 Member 객체의 값을 저장한다. 
+		KosaUserDetails userDetails = 
+				(KosaUserDetails) userDetailsService.loadUserByUsername(mid);
+		
+		// 현재 로그인한 유저의 정보를 member 객체에 저장
+		Member member = userDetails.getMember();
+		
+		// 회원정보수정에서 바꿀 수 있는 값
+		// 비밀번호, 이메일, 휴대폰번호, 회원탈퇴(상태변경)
+		if(menable != null) {
+//			memberDao.update
+		}
+		
+	}
 	
 	
 

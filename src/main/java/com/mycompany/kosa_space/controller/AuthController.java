@@ -3,9 +3,10 @@ package com.mycompany.kosa_space.controller;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /*
 	로그인, 회원가입, 아이디 찾기, 비밀번호 찾기
@@ -64,11 +65,14 @@ public class AuthController {
 		return authService.readMemberPassword(mname, mid, memail);
 	}
 	
-//	// (운영진) 회원정보수정 ------------------------------------
-//	@PatchMapping("/admin/mypage/info/modify")
-//	public void adminUpdate(String mid) {
-//		authService.updateAdmin(mid);
-//	}
+	// (운영진) 회원정보수정 ------------------------------------
+	@PatchMapping("/admin/mypage/info/modify")
+	public void adminUpdate(Authentication authentication, String mpassword,
+			String memail, String mphone, String menable) {
+		// authentication.getName() --> 로그인한 유저의 id를 얻을 수 있다.
+		authService.updateAdmin(authentication.getName(), mpassword,
+				memail, mphone, menable);
+	}
 	
 //	// (공통) 회원 조회 ---------------------------------------
 //	// 교육생 목록 전체 조회
