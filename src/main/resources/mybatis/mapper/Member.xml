@@ -25,4 +25,19 @@
    		where mphone = #{mphone}
    </select>
    
+   <!-- 운영진 회원정보수정 -->
+   <update id="updateAdmin" parameterType="Member">
+   		update member set
+   			mpassword = #{mpassword}, memail = #{memail}, mphone = #{mphone}
+   		where mid = #{mid}
+   </update>
+   
+   <!-- 회원 비활성화 -->
+   <update id="inActivation" parameterType="Member">
+   		update member set
+   			menable = #{menable}
+   		where mid = #{mid}
+   </update>
+   
+   
 </mapper>

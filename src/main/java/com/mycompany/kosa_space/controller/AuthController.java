@@ -1,12 +1,12 @@
 package com.mycompany.kosa_space.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 /*
 	로그인, 회원가입, 아이디 찾기, 비밀번호 찾기
@@ -66,17 +66,41 @@ public class AuthController {
 	}
 	
 	// (운영진) 회원정보수정 ------------------------------------
-	@PatchMapping("/admin/mypage/info/modify")
-	public void adminUpdate(Authentication authentication, String mpassword,
-			String memail, String mphone, String menable) {
-		// authentication.getName() --> 로그인한 유저의 id를 얻을 수 있다.
-		authService.updateAdmin(authentication.getName(), mpassword,
-				memail, mphone, menable);
+//	// 1. AccessToken을 이용하여 로그인한 유저의 정보를 얻어 수정하기.
+//	@PutMapping("/admin/mypage/info/modify")
+//	public void adminUpdate(Member member, Authentication authentication) {
+//		log.info("Vue에서 받은 mid : " + member.getMid());
+//		log.info("토큰으로 확인한 유저의 mid : " + authentication.getName());
+//		
+//		authService.updateAdmin(member, authentication.getName());
+//	}
+	
+	// (운영진) 회원정보수정 ------------------------------------
+	// 프론트에서 로그인 후 저장되어있는 store 값을 이용하여 수정
+	@PutMapping("/admin/mypage/info/modify")
+	public void adminUpdate(Member modify) {
+		log.info("adminUpdate 컨트롤러 실행");
+		authService.updateAdmin(modify);
 	}
+	
+	// (교육생) 회원정보수정 ------------------------------------
+	@PutMapping("/trainee/mypage/info/modify")
+	public void traineeUpdate(Member modify) {
+		log.info("traineeUpdate 컨트롤러 실행");
+		
+	}
+	
+	// (공통) 회원탈퇴 (비활성화) --------------------------------
+	@PutMapping("/admin/mypage/info/modify/inactivation")
+	public void inActivation(String mid) {
+		authService.inActivationMember(mid);
+	}
+	
+	
 	
 //	// (공통) 회원 조회 ---------------------------------------
 //	// 교육생 목록 전체 조회
-//	@GetMapping("/admin/trainee/list") // 임시 url
+//	@GetMapping("/admin/trainee/list/{ecname}") // 임시 url
 //	public List<Member> traineeList(String ecname, String cname) {
 //		List<Member> member = authService.listTrainee(ecname, cname);
 //		return null;
