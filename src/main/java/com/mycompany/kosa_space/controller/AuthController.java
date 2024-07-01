@@ -1,5 +1,6 @@
 package com.mycompany.kosa_space.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /*
 	로그인, 회원가입, 아이디 찾기, 비밀번호 찾기
@@ -42,18 +45,32 @@ public class AuthController {
 	// 회원 가입 ------------------------------------
 	// 운영자 회원가입 요청 컨트롤러
 	@PostMapping("/signup")
-	public void signUp(Member member) {
+	public void signUp(@RequestBody Member member) {
+		log.info("회원가입 컨트롤러 실행");
 		log.info(member.getMid());
+		log.info(member.toString());
+		log.info("1");
 		log.info(member.getMid().substring(0,4));
+		log.info("2");
 		authService.createMember(member);
 		log.info(member.toString());
 	}
 	
 	// (공통) 아이디 찾기 ------------------------------------
 	@GetMapping("/find/id")
+//	public String findId(@RequestParam String mphone, @RequestParam String memail) {
 	public String findId(String mphone, String memail) {
-		log.info("findId 리턴값 확인 == " + authService.readMemberId(mphone, memail));
-		return authService.readMemberId(mphone, memail);
+//		List<String> request = new ArrayList<>();
+//		request.add(mphone);
+//		request.add(memail);
+//		log.info("request: " + request);
+		log.info(mphone);
+		log.info(memail);
+		
+		
+//		log.info("findId 리턴값 확인 == " + authService.readMemberId(request));
+//		return authService.readMemberId(request);
+		return null;
 	}
 	
 	// (공통) 비밀번호 찾기 ------------------------------------

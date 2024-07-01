@@ -1,6 +1,7 @@
 package com.mycompany.kosa_space.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,10 +57,14 @@ public class AuthService {
 		 	따라서 '운영진'의 권한을 얻으려면 앞 글자는 'kosa'를 붙여야 함.
 		 	Ex) kosa001
 		 */
-		if(member.getMid().substring(0,4).equals("kosa")) {
+		
+		// 회원가입은 운영진, 강사만 가능하다.
+		if(member.getMid().contains("kosa")) {
 			member.setMrole("ROLE_ADMIN");			
+		} else if (member.getMid().contains("pro")){
+			member.setMrole("ROLE_MANAGER");
 		} else {
-			member.setMrole("ROLE_USER");
+			member.setMrole("Not_User");
 		}
 		
 		// 아이디 활성화
@@ -114,14 +119,19 @@ public class AuthService {
 	
 	// ---------------------------------------------------------------------------
 	// 아이디 찾기
-	public String readMemberId(String mphone, String memail) {
+	public String readMemberId(List<String> request) {
+		log.info("readMemberId 실행");
 		// 핸드폰 번호는 중복될 수 없다는 전제.
 		// --> 회원가입시 구현하진 않았음. 팀 논의 후 수정 결정
-		Member member = memberDao.selectByMphone(mphone);
+		log.info("request.get(0): " + request.get(0));
+		
+		String phoneNum = request.get(0);
+		
+		Member member = memberDao.selectByMphone(phoneNum);
 		log.info(member.getMemail());
 		log.info(member.getMid());
 		
-		if(memail.equals(member.getMemail())) {
+		if(request.get(1).equals(member.getMemail())) {
 			return member.getMid();
 		} else {
 			return null;
