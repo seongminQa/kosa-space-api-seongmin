@@ -1,11 +1,10 @@
 package com.mycompany.kosa_space.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -74,11 +73,20 @@ public class AuthController {
 		return authService.readMemberId(mphone, memail);
 	}
 	
+	// (공통) 비밀번호 찾기 ------------------------------------ member로 한번에 받고 싶다!!!!!
+//	@GetMapping("/find/password")
+//	public String findPassword(Member member) {
+//		log.info("member : " + member.toString());
+////		return authService.readMemberPassword(mname, mid, memail);
+//		return null;
+//	}
+	
 	// (공통) 비밀번호 찾기 ------------------------------------
 	@GetMapping("/find/password")
-	public String findPassword(String mname, String mid, String memail) {
-		log.info("mid : " + mid);
+	public String findPassword(String mid, String mname, String memail) { 
+		// 프론트의 authAPI의 함수 findPassword에서 인자값을 params로 "mname":mname 식으로 지정해주었기 때문에 순서에 상관없이 파라미터 변수명이 일치한다면 잘 받아진다.
 		log.info("mname : " + mname);
+		log.info("mid : " + mid);
 		log.info("memail : " + memail);
 		return authService.readMemberPassword(mname, mid, memail);
 	}
