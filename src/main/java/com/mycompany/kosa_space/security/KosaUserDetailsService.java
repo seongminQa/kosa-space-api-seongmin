@@ -32,6 +32,7 @@ public class KosaUserDetailsService implements UserDetailsService {
       List<GrantedAuthority> authorities = new ArrayList<>();
       authorities.add(new SimpleGrantedAuthority(member.getMrole()));
       
+      // KosaUserDetails의 생성자를 이용하여 해당 아이디와 권한을 저장하고 member 객체를 반환
       KosaUserDetails userDetails = new KosaUserDetails(member, authorities);
       return userDetails;
    }
