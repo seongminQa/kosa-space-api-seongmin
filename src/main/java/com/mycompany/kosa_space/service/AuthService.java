@@ -119,24 +119,69 @@ public class AuthService {
 	
 	// ---------------------------------------------------------------------------
 	// 아이디 찾기
-	public String readMemberId(List<String> request) {
+	public String readMemberId(String mphone, String memail) {
 		log.info("readMemberId 실행");
 		// 핸드폰 번호는 중복될 수 없다는 전제.
 		// --> 회원가입시 구현하진 않았음. 팀 논의 후 수정 결정
-		log.info("request.get(0): " + request.get(0));
+		log.info("mphone: " + mphone); // 확인
+		log.info("memail: " + memail); // 확인
 		
-		String phoneNum = request.get(0);
-		
-		Member member = memberDao.selectByMphone(phoneNum);
-		log.info(member.getMemail());
-		log.info(member.getMid());
-		
-		if(request.get(1).equals(member.getMemail())) {
-			return member.getMid();
+		if(memberDao.selectByMphone(mphone) == null) {
+			log.info("휴대폰 번호가 등록되어있지 않음");
+			return "none";
 		} else {
-			return null;
+			log.info("memberDao.selectByMphone(mphone) = " + memberDao.selectByMphone(mphone).toString());
+			log.info("member.getMid() = " + memberDao.selectByMphone(mphone).getMid());			
+			log.info("member.getMid() = " + memberDao.selectByMphone(mphone).getMemail());
+			Member member = memberDao.selectByMphone(mphone);
+			if(memail.equals(member.getMemail())) {
+				return member.getMid();
+			} else {
+				log.info("휴대폰 번호는 존재하나, 이메일이 일치하지 않음");
+				return "none";
+			}
 		}
+		
+//		if(memberDao.selectByMphone(mphone) == null) {
+//			return "none";
+//		} else {
+//			Member member = memberDao.selectByMphone(memail);
+//			log.info(member.getMemail());
+//			log.info(member.getMid());
+//		}
+		
+		
+//		Member member = memberDao.selectByMphone(memail);
+//		log.info(member.getMemail());
+//		log.info(member.getMid());
+//		
+//		if(request.get(1).equals(member.getMemail())) {
+//			return member.getMid();
+//		} else {
+//			return null;
+//		}
 	}
+	
+//	// 아이디 찾기
+//	   public String readMemberId(List<String> request) {
+//	      // 핸드폰 번호는 중복될 수 없다는 전제.
+//	      // --> 회원가입시 구현하진 않았음. 팀 논의 후 수정 결정
+////	      Member member = memberDao.selectByMphone(request.get(0));
+////	      log.info(member.getMemail());
+////	      log.info(member.getMid());
+//	      if(memberDao.selectByMphone(request.get(0)) == null) {
+//	    	  return "등록되어있지 않은 전화번호";
+//	      } else {
+//	    	  Member member = memberDao.selectByMphone(request.get(0));
+//	      }
+//		   
+////	      if(request.get(1).equals(member.getMemail())) {
+////	         return member.getMid();
+////	      } else {
+////	         return "none";
+////	      }
+//		  return null;
+//	   }
 	
 	// ---------------------------------------------------------------------------
 	// 임시 비밀번호 발급을 위한 

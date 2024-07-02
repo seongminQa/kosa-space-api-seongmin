@@ -57,20 +57,21 @@ public class AuthController {
 	}
 	
 	// (공통) 아이디 찾기 ------------------------------------
+//	@GetMapping("/find/id")
+//	public String findId(@RequestParam("mphone") String mphone, @RequestParam("memail") String memail) {
+//		log.info(mphone); // 확인
+//		log.info(memail); // 확인
+//		log.info("findId 리턴값 확인 == " + authService.readMemberId(mphone, memail));
+//		return authService.readMemberId(mphone, memail);
+//	}
+	
+	// (공통) 아이디 찾기 ------------------------------------
 	@GetMapping("/find/id")
-//	public String findId(@RequestParam String mphone, @RequestParam String memail) {
-	public String findId(String mphone, String memail) {
-//		List<String> request = new ArrayList<>();
-//		request.add(mphone);
-//		request.add(memail);
-//		log.info("request: " + request);
-		log.info(mphone);
-		log.info(memail);
-		
-		
-//		log.info("findId 리턴값 확인 == " + authService.readMemberId(request));
-//		return authService.readMemberId(request);
-		return null;
+	public String findId(@RequestParam String mphone, @RequestParam String memail) {
+		log.info(mphone); // 확인
+		log.info(memail); // 확인
+		log.info("findId 리턴값 확인 == " + authService.readMemberId(mphone, memail));
+		return authService.readMemberId(mphone, memail);
 	}
 	
 	// (공통) 비밀번호 찾기 ------------------------------------
