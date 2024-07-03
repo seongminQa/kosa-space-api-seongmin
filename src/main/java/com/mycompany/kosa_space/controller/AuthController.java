@@ -30,6 +30,8 @@ public class AuthController {
 	
 	// 로그인 ------------------------------------
 	// 로그인 요청 컨트롤러
+	// form-data로 요청을 보내면 @RequestBody를 빼야한다.
+	// Vue의 경우엔 JSON형식으로 넘어오기 때문에 @RequestBody를 넣어주어야 한다.
 	@PostMapping("/login")
 	public Map<String, String> login(@RequestBody Member member) {
 		log.info("login 컨트롤러 실행");
