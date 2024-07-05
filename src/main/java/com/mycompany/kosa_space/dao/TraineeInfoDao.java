@@ -3,6 +3,7 @@ package com.mycompany.kosa_space.dao;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.mycompany.kosa_space.dto.TraineeInfo;
+import com.mycompany.kosa_space.dto.request.UpdateTraineeRequestDto;
 import com.mycompany.kosa_space.dto.response.TraineeResponseDto;
 
 @Mapper
@@ -15,5 +16,7 @@ public interface TraineeInfoDao {
 	public TraineeInfo selectByMid(String mid);
 	// 교육생 단건 조회
 	public TraineeResponseDto detailInfo(String mid);
+	// 교육생 수정
+	public void updateTrainee(UpdateTraineeRequestDto request);
 
 }

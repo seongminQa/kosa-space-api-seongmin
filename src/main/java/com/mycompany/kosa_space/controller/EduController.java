@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mycompany.kosa_space.dto.EduCenter;
 import com.mycompany.kosa_space.dto.request.CreateTraineeRequestDto;
+import com.mycompany.kosa_space.dto.request.UpdateTraineeRequestDto;
 import com.mycompany.kosa_space.dto.response.TraineeResponseDto;
 import com.mycompany.kosa_space.service.EduService;
 
@@ -67,16 +68,13 @@ public class EduController {
 	   return eduService.infoTrainee(mid);
    }
    
-   
    // 교육생 수정
-//   @PutMapping("/admin/trainee/update")
-//   public void traineeUpdate(@RequestParam String mid) {
-//	   log.info("교육생 수정 실행");
-//	   log.info("mid = " + mid);
-//	   eduService.updateTrainee(mid);
-//	   
-//	   return null;
-//   }
+   @PutMapping("/admin/trainee/update")
+   public void traineeUpdate(@RequestParam String mid, UpdateTraineeRequestDto request) {
+	   log.info("교육생 수정 실행");
+	   log.info("mid = " + mid);
+	   log.info("request = " + request);
+	   eduService.updateTrainee(mid, request);
+   }
    
-	
 }

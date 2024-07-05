@@ -1,4 +1,4 @@
-package com.mycompany.kosa_space.dto.response;
+package com.mycompany.kosa_space.dto.request;
 
 import java.util.Date;
 import java.util.List;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TraineeResponseDto {
+public class UpdateTraineeRequestDto {
 	private String mid;		// 교육생 단건 조회
 	private String ecname;
 	private String cname;	// 교육생 단건 조회

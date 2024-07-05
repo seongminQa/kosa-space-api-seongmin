@@ -3,6 +3,7 @@ package com.mycompany.kosa_space.dao;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.mycompany.kosa_space.dto.Member;
+import com.mycompany.kosa_space.dto.request.UpdateTraineeRequestDto;
 
 @Mapper
 public interface MemberDao {
@@ -16,5 +17,7 @@ public interface MemberDao {
 	public void updateAdmin(Member member);
 	// (공통) 회원 비활성화
 	public void inActivation(Member member);
+	// (교육생) 운영진 -> 교육생 수정
+	public void updateTrainee(UpdateTraineeRequestDto request);
 
 }

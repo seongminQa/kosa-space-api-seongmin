@@ -39,5 +39,13 @@
    		where mid = #{mid}
    </update>
    
+   <!-- 운영진 > 교육생 수정 -->
+   <update id="updateTrainee" parameterType="updatetraineerequestdto">
+   		update member set
+   			mname=#{mname}, mphone=#{mphone}, memail=#{memail}, menable=#{menable}, 
+   			mupdatedat=sysdate
+   		where mid = #{mid}
+   </update>
+   
    
 </mapper>
