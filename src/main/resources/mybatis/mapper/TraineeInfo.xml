@@ -1,6 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycompany.kosa_space.dao.TraineeInfoDao">
+   <select id="readTraineeCnt" parameterType="String" resultType="int">
+   		<![CDATA[
+      		select count(mid)
+      		from traineeinfo
+			where cno = (
+	    		select cno
+	    		from course
+	    		where cname = #{cname}
+    		)
+      ]]>
+   </select>
    
+   <insert id="insert" parameterType="traineeInfo">
+   		insert into traineeinfo(
+   			mid, cno, tsex, tage, tpostcode, taddress, tfield, tacademic,
+   			tschoolname, tmajor, tminor, tgrade, tstatus, tprofileimg,
+   			tprofileoname, tprofiletype
+   		)
+   		values (
+   			#{mid}, #{cno}, #{tsex}, #{tage}, #{tpostcode}, #{taddress}, #{tfield}, 
+   			#{tacademic}, #{tschoolname}, #{tmajor}, #{tminor}, #{tgrade}, #{tstatus}, 
+   			#{tprofileimg}, #{tprofileoname}, #{tprofiletype}
+   		)
+   </insert>
+   
+   <select id="selectByMid" parameterType="String" resultType="traineeinfo">
+   		select *
+   		from traineeinfo
+   		where mid = #{mid}
+   </select>
+   
+<!--    성민
+   <select id="detailInfo" parameterType="String" resultType="traineeResponsedto">
+   		<![CDATA[
+      		select *
+			from (
+			    select m.mid, m.mname, m.mphone, m.memail, t.tsex, t.tage, t.tpostcode, t.taddress,
+			        t.tfield, t.tacademic, t.tschoolname, t.tmajor, t.tminor, t.tgrade, t.tprofileimg,
+			        c.cname, c.cstatus
+			    from member m, traineeinfo t, course c
+			    where m.mid = t.mid
+			        and t.cno = c.cno
+			    ) m1
+			where m1.mid = #{mid}
+      ]]>
+   </select>
+    -->
+    
+    <!-- 현주 -->
+   <select id="detailInfo" parameterType="String" resultType="traineeResponsedto">
+			select *
+			from (
+			    select c.cno, c.cname, c.ccode, c.trno, c.ctotalnum, c.cstartdate, c.cenddate, c.crequireddate, 
+			        c.cprofessor, c.cmanager, c.ctrainingdate, c.ctrainingtime,
+			        t1.mid, t1.tstatus, t1.mname, t1.mphone, t1.memail, t1.tpostcode, t1.taddress, t1.tage,
+			        t1.tsex, t1.tfield, t1.tacademic, t1.tschoolname, t1.tmajor, t1.tminor, t1.tgrade,
+			        t1.mrole, t1.menable, t1.mcreatedat, t1.mupdatedat
+			    from course c, (
+			        select m.mid, t.cno, t.tstatus, m.mname, m.mphone, m.memail, t. tpostcode, t.taddress,
+			            t.tage, t.tsex, t.tfield, t.tacademic, t.tschoolname, t.tmajor, t.tminor, t.tgrade,
+			            m.mpassword, m.mrole, m.menable, m.mcreatedat, m.mupdatedat
+			        from member m, traineeinfo t
+			        where m.mid = t.mid
+			    ) t1
+			    where c.cno = t1.cno
+			)
+			where mid=#{mid}
+   </select>
    
 </mapper>

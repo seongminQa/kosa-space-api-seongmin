@@ -1,21 +1,20 @@
 package com.mycompany.kosa_space.controller;
 
-import java.io.IOException;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /*
 	교육장, 강의실, 교육과정
 */
 
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.mycompany.kosa_space.dto.EduCenter;
-import com.mycompany.kosa_space.dto.request.CreateTraineeDTO;
+import com.mycompany.kosa_space.dto.request.CreateTraineeRequestDto;
+import com.mycompany.kosa_space.dto.response.TraineeResponseDto;
 import com.mycompany.kosa_space.service.EduService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -51,10 +50,33 @@ public class EduController {
    // 성민 ------------------------------------------------------------
    // 교육생 등록
    @PostMapping("/admin/trainee/register")
-   public void traineeRegister(CreateTraineeDTO createTraineeDTO) {
+   public void traineeRegister(@RequestParam("ecname") String ecname,
+		   @RequestParam("cname") String cname, CreateTraineeRequestDto request) {
 	   log.info("traineeRegister 실행");
-	   log.info("createTraineeDTO = " + createTraineeDTO);
-	   eduService.createTrainee(createTraineeDTO);
+	   log.info("createTraineeDTO = " + request);
+	   log.info("ecname = " + ecname);
+	   log.info("cname = " + cname);
+	   eduService.createTrainee(request);
    }
+
+   // 교육생 단건 조회
+   @GetMapping("/admin/trainee/info")
+   public TraineeResponseDto traineeInfo(@RequestParam String mid) {
+	   log.info("교육생 단건 조회 실행");
+	   log.info("mid = " + mid);
+	   return eduService.infoTrainee(mid);
+   }
+   
+   
+   // 교육생 수정
+//   @PutMapping("/admin/trainee/update")
+//   public void traineeUpdate(@RequestParam String mid) {
+//	   log.info("교육생 수정 실행");
+//	   log.info("mid = " + mid);
+//	   eduService.updateTrainee(mid);
+//	   
+//	   return null;
+//   }
+   
 	
 }

@@ -2,5 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycompany.kosa_space.dao.CourseDao">
    
+   <select id="readCourse" parameterType="String" resultType="course">
+   		select cno, ccode, ctotalnum, cstatus
+   		from course
+   		where cname = #{cname}
+   </select>
    
 </mapper>

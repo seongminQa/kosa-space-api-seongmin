@@ -16,7 +16,7 @@ public class Course {
 	private Date cstartdate;
 	private Date cenddate;
 	private int crequireddate;
-	private boolean cstatus;
+	private String cstatus;
 	private String cprofessor;
 	private String cmanager;
 	
